@@ -45,11 +45,11 @@ export const Header = ({
   };
 
   const navigation = [
-    { name: "Home", href: "#" },
+    { name: "Home", href: "/" },
     { name: "Shop", href: "#" },
-    { name: "Categories", href: "#" },
-    { name: "About", href: "#" },
-    { name: "Contact", href: "#" },
+    { name: "Categories", href: "/categories" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
