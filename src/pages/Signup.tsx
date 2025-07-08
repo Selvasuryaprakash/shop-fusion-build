@@ -16,6 +16,7 @@ const initialFormData: SignUpData = {
   confirmPassword: '',
 };
 
+
 const Signup: React.FC = () => {
   const [formData, setFormData] = useState<SignUpData>(initialFormData);
   const [errors, setErrors] = useState<Partial<SignUpData>>({});
