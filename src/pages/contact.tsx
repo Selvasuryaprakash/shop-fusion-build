@@ -1,7 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Mail, Phone, Linkedin } from 'lucide-react';
 
+interface ContactFormData {
+  name: string;
+  email: string;
+  subject: string;
+  phonenumber: string;
+  message: string;
+}
+
+const initialFormData: ContactFormData = {
+  name: "",
+  email: "",
+  subject: "",
+  phonenumber: "",
+  message: "",
+};
+
+
 const Contact = () => {
+  const [formData, setFormData] = useState<ContactFormData>(initialFormData);
+  const [errors, setErrors] = useState<Partial<ContactFormData>>({});
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validate = () => {
+    const newErrors: Partial<ContactFormData> = {};
+    if (!formData.name) newErrors.name = "Name is required.";
+    if (!formData.email) newErrors.email = "Email is required.";
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid.";
+    }
+    if (!formData.subject) newErrors.subject = "Subject is required.";
+    if (!formData.phonenumber) newErrors.phonenumber = "Phone number is required.";
+    else if (!/^\+?\d{10,15}$/.test(formData.phonenumber)) {
+      newErrors.phonenumber = "Phone number is invalid.";
+    }
+
+    if (!formData.message) newErrors.message = "Message is required.";
+    return newErrors;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    console.log("Submitted:", formData);
+    setSubmitted(true);
+    setFormData(initialFormData);
+    setErrors({});
+  };
+
+
   return (
     <div className="bg-white min-h-screen px-6 py-12 sm:px-16">
       <div className="max-w-4xl mx-auto">
@@ -57,7 +115,84 @@ const Contact = () => {
           <p className="text-gray-500 text-sm">We typically respond within 24 hours.</p>
         </div>
       </div>
+      <div className="max-w-xl mx-auto p-6 bg-sky-100 shadow-md rounded-md mt-10">
+        <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
+        {submitted && (
+          <p className="mb-4 text-green-600 font-medium">Message sent successfully!</p>
+        )}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block font-medium mb-1">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full border-none py-2 rounded-md"
+            />
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block font-medium mb-1">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full border-none py-2 rounded-md"
+            />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block font-medium mb-1">Subject</label>
+            <input
+              type="text"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              className="w-full border-none py-2 rounded-md"
+            />
+            {errors.subject && <p className="text-red-500 text-sm">{errors.subject}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block font-medium mb-1">Phone Number</label>
+            <div className="flex">
+              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm">
+                +91
+              </span>
+              <input
+                type="text"
+                name="phonenumber"
+                value={formData.phonenumber}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-r-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                placeholder="Enter 10-digit number"
+              />
+            </div>
+            {errors.phonenumber && <p className="text-red-500 text-sm">{errors.phonenumber}</p>}
+          </div>
+
+          <div className="mb-4">
+            <label className="block font-medium mb-6">Message</label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              rows={5}
+              className="w-full border-none py-2 rounded-md"
+            ></textarea>
+            {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
+          </div>
+
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+            Send Message
+          </button>
+        </form>
+      </div>
     </div>
+
   );
 };
 

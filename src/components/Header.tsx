@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { ShoppingCart } from "./ShoppingCart";
 import { Heart, Menu, Search, User, X } from "lucide-react";
@@ -28,13 +28,13 @@ interface HeaderProps {
   onSearch: (query: string) => void;
 }
 
-export const Header = ({ 
-  cartItems, 
-  wishlistCount, 
-  onUpdateQuantity, 
-  onRemoveItem, 
+export const Header = ({
+  cartItems,
+  wishlistCount,
+  onUpdateQuantity,
+  onRemoveItem,
   onClearCart,
-  onSearch 
+  onSearch
 }: HeaderProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -131,8 +131,8 @@ export const Header = ({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem>Sign In</DropdownMenuItem>
-                <DropdownMenuItem>Create Account</DropdownMenuItem>
+              <a href="/login"><DropdownMenuItem> Sign In </DropdownMenuItem></a> 
+               <a href="/signup"> <DropdownMenuItem>Create Account</DropdownMenuItem></a>
                 <DropdownMenuItem>My Orders</DropdownMenuItem>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
               </DropdownMenuContent>
@@ -169,7 +169,7 @@ export const Header = ({
                 </a>
               ))}
             </nav>
-            
+
             {/* Mobile Search */}
             <form onSubmit={handleSearch} className="mt-4 relative">
               <Input

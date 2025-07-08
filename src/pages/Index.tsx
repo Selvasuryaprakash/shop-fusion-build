@@ -33,7 +33,7 @@ const sampleProducts: Product[] = [
     id: "1",
     name: "Premium Wireless Headphones",
     price: 299,
-    originalPrice: 399,
+    originalPrice:1000,
     image: headphonesImg,
     category: "Electronics",
     rating: 4.8,
